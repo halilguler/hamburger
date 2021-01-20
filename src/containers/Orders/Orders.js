@@ -1,6 +1,7 @@
 import React, {Component} from "react";
 import Order from '../../components/Order/Order';
 import classes from './Orders.css';
+import Spinner from '../../components/UI/Spinner/Spinner';
 import axios from "../../axios-orders";
 import withErrorHandler from "../../hoc/withErrorHandler/withErrorHandler";
 
@@ -29,6 +30,9 @@ class Orders extends Component {
         let order = this.state.orders.map(item => {
             return <Order key={item.id} ingredients={item.ingredients} price={item.price}/>
         })
+        if (this.state.loading) {
+            order = <Spinner/>
+        }
         return (
             <div>
                 {order}
