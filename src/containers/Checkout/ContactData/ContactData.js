@@ -86,6 +86,7 @@ class ContactData extends Component {
         for (let formElementIdentifier in this.state.orderForm) {
             formData[formElementIdentifier] = this.state.orderForm[formElementIdentifier].value;
         }
+        // TODO: Bu kısımdaki price ve ingredients değerlerini reduxtan alman gerekiyor.
         const order = {
             ingredients: this.props.ingredients,
             price: this.props.totalPrice,

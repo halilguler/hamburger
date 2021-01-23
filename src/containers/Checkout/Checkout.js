@@ -5,6 +5,7 @@ import ContactData from "./ContactData/ContactData";
 import CheckoutSummary from '../../components/Order/CheckoutSummary/CheckoutSummary';
 
 class Checkout extends Component {
+    // TODO: bu kısımdaki stateleri reduxtan alman gerekiyor.
     state = {
         ingredients: null,
         price: 0,
