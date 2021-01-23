@@ -73,7 +73,7 @@ class ContactData extends Component {
                 },
                 valid: true,
                 validation: {},
-                value: "",
+                value: "fastest",
             }
         },
         formIsValid: false,
@@ -138,9 +138,7 @@ class ContactData extends Component {
         for (let formElementIdentifier in updateOrderForm) {
             formIsValid = updateOrderForm[formElementIdentifier].valid && formIsValid;
         }
-        console.log(formIsValid);
-
-        this.setState({orderForm: updateOrderForm,formIsValid:formIsValid});
+        this.setState({orderForm: updateOrderForm, formIsValid: formIsValid});
     }
 
     render() {
