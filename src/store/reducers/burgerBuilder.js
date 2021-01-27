@@ -1,13 +1,9 @@
 import * as actionTypes from '../actions/actionTypes';
 
 const initialState = {
-    ingredients: {
-        salad: 0,
-        bacon: 0,
-        cheese: 0,
-        meat: 0,
-    },
+    ingredients: null,
     totalPrice: 4,
+    error: false
 }
 
 const INGREDIENT_PRICES = {
@@ -37,6 +33,16 @@ const burgerBuilder = (state = initialState, action) => {
                     [action.ingredientsName]: state.ingredients[action.ingredientsName] - 1
                 },
                 totalPrice: state.totalPrice - INGREDIENT_PRICES[action.ingredientsName],
+            }
+        case actionTypes.SET_INGREDIENTS:
+            return {
+                ...state,
+                ingredients: action.ingredients,
+            }
+        case actionTypes.FETCH_INGREDIENTS_FAILED:
+            return {
+                ...state,
+                error: true,
             }
     }
     return state;
