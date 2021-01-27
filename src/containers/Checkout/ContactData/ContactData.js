@@ -5,6 +5,9 @@ import classes from './ContactData.css';
 import axios from '../../../axios-orders';
 import Spinner from '../../../components/UI/Spinner/Spinner';
 import Input from '../../../components/UI/Input/Input';
+import withErrorHandler from "../../../hoc/withErrorHandler/withErrorHandler";
+import * as orderActions from '../../../store/actions/index';
+import order from "../../../components/Order/Order";
 
 class ContactData extends Component {
 
@@ -93,15 +96,9 @@ class ContactData extends Component {
             price: this.props.totalPrice,
             orderData: formData,
         }
-        axios.post("/order.json", order).then(response => {
 
-            this.props.history.push('/');
-        }).catch(error => {
+        this.props.onPurchaseBurgerStarts(order);
 
-            this.setState({loading: false});
-        }).finally(() => {
-            this.setState({loading: false});
-        });
     }
 
     checkValidity(value, rules) {
@@ -180,4 +177,11 @@ class ContactData extends Component {
 const mapStateToProps = (state) => {
     return {ingredients: state.burger.ingredients, totalPrice: state.burger.totalPrice}
 }
-export default connect(mapStateToProps)(ContactData);
+
+const mapDispatchToProps = (dispatch) => {
+    return {
+        onPurchaseBurgerStarts: (orderData) => dispatch(orderActions.purchaseBurgerStarts(orderData))
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(withErrorHandler(ContactData, axios));
