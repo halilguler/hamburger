@@ -1,4 +1,4 @@
-import * as actionTypes from '../actions/burger';
+import * as actionTypes from '../actions/actionTypes';
 
 const initialState = {
     ingredients: {
@@ -17,9 +17,8 @@ const INGREDIENT_PRICES = {
     bacon: 0.7,
 }
 
-// TODO: Bu kısımda addIngredient ve RemoveIngredient kısımlarını redux olarak geliştirmelisin.
 
-const burger = (state = initialState, action) => {
+const burgerBuilder = (state = initialState, action) => {
     switch (action.type) {
         case actionTypes.ADD_INGREDIENTS:
             return {
@@ -43,4 +42,4 @@ const burger = (state = initialState, action) => {
     return state;
 }
 
-export default burger;
+export default burgerBuilder;
