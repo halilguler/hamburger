@@ -7,7 +7,6 @@ import Spinner from "../../components/UI/Spinner/Spinner";
 import classes from './Auth.css';
 
 class Auth extends Component {
-
     state = {
         controls: {
             email: {
@@ -121,13 +120,30 @@ class Auth extends Component {
             </form>
         );
 
+        if (this.props.loading) {
+            form = <Spinner/>
+        }
+
+        let errorMessageShow = null;
+        if (this.props.error) {
+            errorMessageShow = this.props.error;
+        }
+
         return (
             <div className={classes.Auth}>
+                {errorMessageShow}
                 {form}
                 <Button btnType={"Danger"} clicked={this.switchSignChangeHandler}>SWITCH
                     TO {this.state.isSignUp ? "SIGN UP" : "SIGN IN"}</Button>
             </div>
         );
+    }
+}
+
+const mapStateToProps = state => {
+    return {
+        loading: state.auth.loading,
+        error: state.auth.error,
     }
 }
 
@@ -137,4 +153,4 @@ const mapDispatchToProps = (dispatch) => {
     }
 }
 
-export default connect(null, mapDispatchToProps)(Auth);
+export default connect(mapStateToProps, mapDispatchToProps)(Auth);
