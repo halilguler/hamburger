@@ -1,5 +1,4 @@
 import * as actionTypes from "../actions/actionTypes";
-import {updateObject} from "../utility";
 
 const initialState = {
     orders: [],
@@ -44,7 +43,7 @@ const order = (state = initialState, action) => {
             return {
                 ...state,
                 loading: false,
-                orders: action.orders,
+                orders: state.orders.concat(action.orders),
             }
         case actionTypes.FETCH_ORDERS_FAIL:
             return {
