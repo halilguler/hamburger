@@ -3,8 +3,7 @@ import Aux from '../Auxiliary/Auxiliary';
 import SideDrawer from '../../components/Navigation/SideDrawer/SideDrawer';
 import Toolbar from '../../components/Navigation/Toolbar/Toolbar';
 import classes from './Layout.css';
-
-// State management kullandığımız ve fonksiyon göndereceğimiz için class component kullandık.
+import {connect} from 'react-redux';
 
 class Layout extends Component {
 
@@ -22,15 +21,20 @@ class Layout extends Component {
         })
     }
 
-
     render() {
         return (
             <Aux>
-                <SideDrawer open={this.state.showSideDrawer} clicked={this.sideDrawerCloseHandler}/>
-                <Toolbar clicked={this.sideDrawerToggleHandler}/>
+                <Toolbar isAuth={this.props.isAuthentication} clicked={this.sideDrawerToggleHandler}/>
+                <SideDrawer isAuth={this.props.isAuthentication} open={this.state.showSideDrawer} clicked={this.sideDrawerCloseHandler}/>
                 <main className={classes.Content}>{this.props.children}</main>
             </Aux>);
     }
 }
 
-export default Layout;
+const mapStateToProps = (state) => {
+    return {
+        isAuthentication: state.auth.token !== null,
+    }
+}
+
+export default connect(mapStateToProps)(Layout);
