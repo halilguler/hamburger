@@ -5,6 +5,7 @@ import Input from '../../components/UI/Input/Input';
 import Button from '../../components/UI/Button/Button';
 import Spinner from "../../components/UI/Spinner/Spinner";
 import classes from './Auth.css';
+import {Redirect} from 'react-router-dom';
 
 class Auth extends Component {
     state = {
@@ -124,6 +125,11 @@ class Auth extends Component {
             form = <Spinner/>
         }
 
+        let redirectAuth = null;
+        if (this.props.isAuth) {
+            redirectAuth = <Redirect to={'/'}/>
+        }
+
         let errorMessageShow = null;
         if (this.props.error) {
             errorMessageShow = this.props.error;
@@ -131,6 +137,7 @@ class Auth extends Component {
 
         return (
             <div className={classes.Auth}>
+                {redirectAuth}
                 {errorMessageShow}
                 {form}
                 <Button btnType={"Danger"} clicked={this.switchSignChangeHandler}>SWITCH
@@ -144,6 +151,7 @@ const mapStateToProps = state => {
     return {
         loading: state.auth.loading,
         error: state.auth.error,
+        isAuth: state.auth.token !== null,
     }
 }
 
