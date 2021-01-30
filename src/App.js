@@ -16,22 +16,39 @@ class App extends Component {
     }
 
     render() {
+
+        let router = (
+            <Switch>
+                <Route path={"/auth"} component={Auth}/>
+                <Route path={"/"} exact component={BurgerBuilder}/>
+                <Redirect to={'/'}/>
+            </Switch>
+        )
+        if (this.props.isAuthentication) {
+            router = (<Switch>
+                <Route path={"/checkout"} component={Checkout}/>
+                <Route path={"/orders"} component={Orders}/>
+                <Route path={"/logout"} component={Logout}/>
+                <Route path={"/"} exact component={BurgerBuilder}/>
+                <Redirect to={'/'}/>
+                {/*<Route render={() => (<h2>404 not found!</h2>)}/>*/}
+                {/*<Redirect from={'/checkout'} to={'/'}/>*/}
+            </Switch>)
+        }
+
         return (
             <div className="App">
                 <Layout>
-                    <Switch>
-                        <Route path={"/checkout"} component={Checkout}/>
-                        <Route path={"/orders"} component={Orders}/>
-                        <Route path={"/auth"} component={Auth}/>
-                        <Route path={"/logout"} component={Logout}/>
-                        <Route path={"/"} exact component={BurgerBuilder}/>
-
-                        {/*<Route render={() => (<h2>404 not found!</h2>)}/>*/}
-                        {/*<Redirect from={'/checkout'} to={'/'}/>*/}
-                    </Switch>
+                    {router}
                 </Layout>
             </div>
         );
+    }
+}
+
+const mapStateToProps = state => {
+    return {
+        isAuthentication: state.auth.token !== null,
     }
 }
 
@@ -41,4 +58,4 @@ const mapDispatchToProps = dispatch => {
     }
 }
 
-export default withRouter(connect(null, mapDispatchToProps)(App));
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(App));
