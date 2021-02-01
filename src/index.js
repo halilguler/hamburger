@@ -24,9 +24,7 @@ const composeEnhancers =
 
 const logger = ({ getState }) => {
   return (next) => (action) => {
-    console.log(["Middleware"], action);
     const returnValue = next(action);
-    console.log(["State after dispatch"], getState());
     return returnValue;
   };
 };
