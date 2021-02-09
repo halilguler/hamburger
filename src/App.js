@@ -1,4 +1,4 @@
-import React, { Component, Suspense } from "react";
+import React, { Suspense, useEffect } from "react";
 import { Route, Switch, Redirect, withRouter } from "react-router-dom";
 import * as actions from "./store/actions/index";
 import Layout from "./hoc/Layout/Layout";
@@ -13,43 +13,41 @@ const orders = React.lazy(() => import("./containers/Orders/Orders"));
 const auth = React.lazy(() => import("./containers/Auth/Auth"));
 const checkout = React.lazy(() => import("./containers/Checkout/Checkout"));
 
-class App extends Component {
-  componentDidMount() {
-    this.props.onTryAutoSignup();
-  }
+const App = (props) => {
+  useEffect(() => {
+    props.onTryAutoSignup();
+  }, []);
 
-  render() {
-    let router = (
+  let router = (
+    <Switch>
+      <Route path={"/auth"} component={auth} />
+      <Route path={"/"} exact component={burgerBuilder} />
+      <Redirect to={"/"} />
+    </Switch>
+  );
+  if (props.isAuthentication) {
+    router = (
       <Switch>
+        <Route path={"/checkout"} component={checkout} />
+        <Route path={"/orders"} component={orders} />
         <Route path={"/auth"} component={auth} />
+        <Route path={"/logout"} component={logout} />
         <Route path={"/"} exact component={burgerBuilder} />
         <Redirect to={"/"} />
+        {/*<Route render={() => (<h2>404 not found!</h2>)}/>*/}
+        {/*<Redirect from={'/checkout'} to={'/'}/>*/}
       </Switch>
     );
-    if (this.props.isAuthentication) {
-      router = (
-        <Switch>
-          <Route path={"/checkout"} component={checkout} />
-          <Route path={"/orders"} component={orders} />
-          <Route path={"/auth"} component={auth} />
-          <Route path={"/logout"} component={logout} />
-          <Route path={"/"} exact component={burgerBuilder} />
-          <Redirect to={"/"} />
-          {/*<Route render={() => (<h2>404 not found!</h2>)}/>*/}
-          {/*<Redirect from={'/checkout'} to={'/'}/>*/}
-        </Switch>
-      );
-    }
-
-    return (
-      <div className="App">
-        <Suspense fallback={<Spinner />}>
-          <Layout>{router}</Layout>
-        </Suspense>
-      </div>
-    );
   }
-}
+
+  return (
+    <div className="App">
+      <Layout>
+        <Suspense fallback={<Spinner />}>{router} </Suspense>
+      </Layout>
+    </div>
+  );
+};
 
 const mapStateToProps = (state) => {
   return {
