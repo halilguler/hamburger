@@ -11,7 +11,7 @@ const burgerBuilder = React.lazy(() =>
 const logout = React.lazy(() => import("./containers/Auth/Logout/Logout"));
 const orders = React.lazy(() => import("./containers/Orders/Orders"));
 const auth = React.lazy(() => import("./containers/Auth/Auth"));
-const checkout = React.lazy(() => import("./containers/Checkout/Checkout"));
+const Checkout = React.lazy(() => import("./containers/Checkout/Checkout"));
 
 const App = (props) => {
   useEffect(() => {
@@ -28,7 +28,7 @@ const App = (props) => {
   if (props.isAuthentication) {
     router = (
       <Switch>
-        <Route path={"/checkout"} component={checkout} />
+        <Route path={"/checkout"} render={(props)=> <Checkout {...props}/>} />
         <Route path={"/orders"} component={orders} />
         <Route path={"/auth"} component={auth} />
         <Route path={"/logout"} component={logout} />
